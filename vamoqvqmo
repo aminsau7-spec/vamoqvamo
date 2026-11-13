@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaWeb | Agência Digital & Estúdio Criativo</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Configuração do Tailwind para suporte a Dark Mode via classe e fontes -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Script inicial para evitar flash de tema incorreto (FOUC) -->
+    <script>
+        if (localStorage.getItem('novaweb-theme') === 'dark' || 
+            (!('novaweb-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-600 selection:text-white">
+
+    <!-- ==================== 1. BARRA DE NAVEGAÇÃO ==================== -->
+    <header id="navbar" class="fixed top-0 inset-x-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-2.5 group focus:outline-none">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                        N
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        Nova<span class="text-brand-600 dark:text-brand-500">Web</span>
+                    </span>
+                </a>
+
+                <!-- Links Desktop -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition-colors">Início</a>
+                    <a href="#servicos" class="text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition-colors">Serviços</a>
+                    <a href="#portfolio" class="text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition-colors">Portfólio</a>
+                    <a href="#orcamento" class="text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition-colors">Orçamento</a>
+                    <a href="#contato" class="text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition-colors">Contato</a>
+                </nav>
+
+                <!-- Ações (Tema + CTA + Hambúrguer) -->
+                <div class="flex items-center gap-3">
+                    <!-- Botão Alternador de Tema -->
+                    <button id="theme-toggle" aria-label="Alternar tema claro ou escuro" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <!-- Ícone Sol (visível no modo escuro) -->
+                        <svg id="theme-icon-sun" class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <!-- Ícone Lua (visível no modo claro) -->
+                        <svg id="theme-icon-moon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Botão CTA Desktop -->
+                    <a href="#orcamento" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-md shadow-brand-600/20 transition-all">
+                        Simular Projeto
+                    </a>
+
+                    <!-- Botão Menu Hambúrguer Mobile -->
+                    <button id="mobile-menu-btn" aria-label="Abrir menu" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none">
+                        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="close-menu-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-6 space-y-2 shadow-xl">
+            <a href="#inicio" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Início</a>
+            <a href="#servicos" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Serviços</a>
+            <a href="#portfolio" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Portfólio</a>
+            <a href="#orcamento" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Calculadora de Orçamento</a>
+            <a href="#contato" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Contato</a>
+        </div>
+    </header>
+
+    <!-- ==================== 2. SEÇÃO HERO ==================== -->
+    <section id="inicio" class="relative pt-32 pb-20 lg:pt-44 lg:pb-28 overflow-hidden">
+        <!-- Elementos decorativos de fundo -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-96 bg-gradient-to-tr from-brand-500/15 via-violet-500/10 to-sky-500/15 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 dark:bg-brand-900/30 border border-brand-200/70 dark:border-brand-700/50 text-brand-700 dark:text-brand-300 text-xs sm:text-sm font-semibold mb-8">
+                <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
+                Estúdio Digital Premiado • Design & Engenharia Web
+            </div>
+
+            <!-- Título Principal -->
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-[1.12]">
+                Transformamos ideias ousadas em <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-violet-600 to-indigo-500">experiências digitais</span> memoráveis.
+            </h1>
+
+            <!-- Subtítulo -->
+            <p class="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Unimos design estratégico, código de alta performance e marketing orientado a dados para escalar marcas que lideram o futuro.
+            </p>
+
+            <!-- Botões CTA -->
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#orcamento" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-base shadow-xl shadow-brand-600/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                    Calcular Meu Projeto
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+                <a href="#portfolio" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 font-semibold text-base transition-all">
+                    Explorar Portfólio
+                </a>
+            </div>
+
+            <!-- Estatísticas Animadas -->
+            <div id="stats-container" class="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 dark:text-brand-400">
+                        <span class="stat-counter" data-target="180">0</span>+
+                    </div>
+                    <p class="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">Projetos Entregues</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 dark:text-brand-400">
+                        <span class="stat-counter" data-target="98">0</span>%
+                    </div>
+                    <p class="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">Clientes Satisfeitos</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 dark:text-brand-400">
+                        <span class="stat-counter" data-target="12">0</span>+
+                    </div>
+                    <p class="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">Prêmios de Design</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 dark:text-brand-400">
+                        <span class="stat-counter" data-target="3">0</span>x
+                    </div>
+                    <p class="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">Média de ROI Digital</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. SEÇÃO DE SERVIÇOS ==================== -->
+    <section id="servicos" class="py-20 lg:py-28 bg-white dark:bg-slate-900/50 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Nossas Especialidades</span>
+                <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Soluções completas de ponta a ponta</h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400">Filtre por área de atuação para descobrir como impulsionamos cada etapa da sua presença digital.</p>
+            </div>
+
+            <!-- Botões de Filtro -->
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-2.5" id="service-filters">
+                <button data-filter="todos" class="service-filter-btn active px-5 py-2.5 rounded-xl text-sm font-semibold bg-brand-600 text-white shadow-md shadow-brand-600/20 transition-all">
+                    Todos
+                </button>
+                <button data-filter="web-design" class="service-filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                    Web Design
+                </button>
+                <button data-filter="desenvolvimento" class="service-filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                    Desenvolvimento
+                </button>
+                <button data-filter="marketing" class="service-filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                    Marketing
+                </button>
+            </div>
+
+            <!-- Grid de Cartões de Serviços (Preenchido via JS) -->
+            <div id="services-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Os cartões são renderizados dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. SEÇÃO DE PORTFÓLIO ==================== -->
+    <section id="portfolio" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Cases de Sucesso</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Projetos em Destaque</h2>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 max-w-md">
+                    Clique em qualquer projeto para explorar os desafios, a arquitetura utilizada e os resultados alcançados.
+                </p>
+            </div>
+
+            <!-- Grid de Portfólio -->
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cards renderizados via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Detalhes do Portfólio -->
+    <div id="portfolio-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm transition-opacity">
+        <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <!-- Botão Fechar Modal -->
+            <button id="close-modal-btn" aria-label="Fechar janela" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Conteúdo Dinâmico do Modal -->
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- ==================== 5. CALCULADORA DE ORÇAMENTO ==================== -->
+    <section id="orcamento" class="py-20 lg:py-28 bg-slate-100/80 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Transparência Total</span>
+                <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Simulador de Orçamento Interativo</h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400">Personalize o escopo do seu projeto e receba uma estimativa instantânea de investimento e prazo.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Controles da Calculadora (Coluna Esquerda) -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
+                    
+                    <!-- 1. Tipo de Projeto -->
+                    <div>
+                        <label class="block text-base font-bold text-slate-900 dark:text-white mb-4">1. Qual o tipo de projeto?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="project-type-options">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="projectType" value="landing" data-price="1800" data-days="7" class="peer sr-only" checked>
+                                <div class="p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 peer-checked:border-brand-600 peer-checked:bg-brand-50/50 dark:peer-checked:bg-brand-900/20 transition-all">
+                                    <div class="font-bold text-slate-900 dark:text-white">Landing Page</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Foco em conversão</div>
+                                    <div class="text-sm font-semibold text-brand-600 dark:text-brand-400 mt-2">R$ 1.800 base</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="projectType" value="institucional" data-price="3500" data-days="15" class="peer sr-only">
+                                <div class="p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 peer-checked:border-brand-600 peer-checked:bg-brand-50/50 dark:peer-checked:bg-brand-900/20 transition-all">
+                                    <div class="font-bold text-slate-900 dark:text-white">Site Corporativo</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Autoridade e marca</div>
+                                    <div class="text-sm font-semibold text-brand-600 dark:text-brand-400 mt-2">R$ 3.500 base</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="projectType" value="webapp" data-price="6500" data-days="25" class="peer sr-only">
+                                <div class="p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 peer-checked:border-brand-600 peer-checked:bg-brand-50/50 dark:peer-checked:bg-brand-900/20 transition-all">
+                                    <div class="font-bold text-slate-900 dark:text-white">Sistema / Web App</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sob medida</div>
+                                    <div class="text-sm font-semibold text-brand-600 dark:text-brand-400 mt-2">R$ 6.500 base</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 2. Número de Páginas -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label for="pages-slider" class="text-base font-bold text-slate-900 dark:text-white">2. Quantidade de Páginas / Telas</label>
+                            <span id="pages-display" class="px-3 py-1 rounded-lg bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 font-bold text-sm">5 páginas</span>
+                        </div>
+                        <input id="pages-slider" type="range" min="1" max="20" value="5" class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600">
+                        <div class="flex justify-between text-xs text-slate-400 mt-2">
+                            <span>1 página</span>
+                            <span>10 páginas</span>
+                            <span>20 páginas</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. Recursos Extras -->
+                    <div>
+                        <label class="block text-base font-bold text-slate-900 dark:text-white mb-4">3. Recursos e Módulos Adicionais</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 cursor-pointer transition-colors">
+                                <input type="checkbox" class="addon-checkbox mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500" data-name="SEO Avançado & Performance" data-price="900" data-days="3">
+                                <div>
+                                    <div class="font-semibold text-sm text-slate-900 dark:text-white">SEO Avançado</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Otimização Google & Core Web Vitals (+R$ 900)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 cursor-pointer transition-colors">
+                                <input type="checkbox" class="addon-checkbox mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500" data-name="Integração E-commerce" data-price="2200" data-days="7">
+                                <div>
+                                    <div class="font-semibold text-sm text-slate-900 dark:text-white">E-commerce & Pagamentos</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Checkout Pix/Cartão e catálogo (+R$ 2.200)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 cursor-pointer transition-colors">
+                                <input type="checkbox" class="addon-checkbox mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500" data-name="Blog / CMS Gerenciável" data-price="750" data-days="2">
+                                <div>
+                                    <div class="font-semibold text-sm text-slate-900 dark:text-white">Blog & Painel CMS</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Publique artigos facilmente (+R$ 750)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 cursor-pointer transition-colors">
+                                <input type="checkbox" class="addon-checkbox mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500" data-name="Plano de Manutenção (3 meses)" data-price="1100" data-days="0">
+                                <div>
+                                    <div class="font-semibold text-sm text-slate-900 dark:text-white">Manutenção & Suporte</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Backups, segurança e updates (+R$ 1.100)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Resumo em Tempo Real (Coluna Direita) -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 dark:from-brand-950 dark:to-slate-900 text-white p-8 rounded-3xl shadow-xl border border-slate-700/60 sticky top-28">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-5">
+                        <span class="text-sm font-medium text-slate-300">Estimativa do Investimento</span>
+                        <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">Cálculo em Tempo Real</span>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white" id="total-price">
+                            R$ 2.800,00
+                        </div>
+                        <p class="mt-2 text-sm text-slate-300 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Prazo estimado: <strong id="estimated-days" class="text-white">10 dias úteis</strong>
+                        </p>
+                    </div>
+
+                    <!-- Resumo detalhado dos itens -->
+                    <div class="space-y-2.5 text-sm text-slate-300 border-t border-white/10 pt-5 mb-8" id="quote-breakdown">
+                        <!-- Preenchido via JS -->
+                    </div>
+
+                    <button id="apply-quote-btn" type="button" class="w-full py-4 px-6 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-base shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2">
+                        Solicitar Proposta com Este Escopo
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. FORMULÁRIO DE CONTATO ==================== -->
+    <section id="contato" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <!-- Informações de Contato -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Vamos Conversar</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Pronto para tirar seu projeto do papel?</h2>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Preencha o formulário ao lado e um de nossos especialistas entrará em contato em até 2 horas úteis com um plano estratégico personalizado.
+                    </p>
+
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold uppercase text-slate-400">E-mail Comercial</div>
+                                <div class="font-semibold text-slate-900 dark:text-white">contato@novaweb.studio</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold uppercase text-slate-400">Estúdio Criativo</div>
+                                <div class="font-semibold text-slate-900 dark:text-white">Av. Paulista, 1000 • São Paulo, SP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulário com Validação em Tempo Real -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
+                    <form id="contact-form" novalidate class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Campo Nome -->
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Nome Completo *</label>
+                                <input type="text" id="name" name="name" placeholder="Ex: Mariana Costa" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                                <p id="error-name" class="mt-1 text-xs text-rose-500 hidden">Por favor, insira seu nome (mínimo 3 caracteres).</p>
+                            </div>
+
+                            <!-- Campo E-mail -->
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">E-mail Profissional *</label>
+                                <input type="email" id="email" name="email" placeholder="mariana@empresa.com.br" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                                <p id="error-email" class="mt-1 text-xs text-rose-500 hidden">Digite um endereço de e-mail válido.</p>
+                            </div>
+                        </div>
+
+                        <!-- Campo Assunto -->
+                        <div>
+                            <label for="subject" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Assunto / Interesse *</label>
+                            <input type="text" id="subject" name="subject" placeholder="Ex: Criação de Site Institucional" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                            <p id="error-subject" class="mt-1 text-xs text-rose-500 hidden">Informe o assunto do contato.</p>
+                        </div>
+
+                        <!-- Campo Mensagem -->
+                        <div>
+                            <label for="message" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Detalhes do Projeto *</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Conte-nos sobre seus objetivos, prazos e referências..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"></textarea>
+                            <p id="error-message" class="mt-1 text-xs text-rose-500 hidden">A mensagem deve ter pelo menos 15 caracteres.</p>
+                        </div>
+
+                        <!-- Botão Enviar -->
+                        <button type="submit" id="submit-btn" class="w-full py-4 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2">
+                            <span>Enviar Mensagem</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </button>
+
+                        <!-- Feedback Visual de Sucesso -->
+                        <div id="form-success-banner" class="hidden p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 flex items-start gap-3">
+                            <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div>
+                                <h4 class="font-bold text-sm">Mensagem enviada com sucesso!</h4>
+                                <p class="text-xs mt-1 opacity-90">Recebemos sua solicitação. Nossa equipe responderá em breve no e-mail informado.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. RODAPÉ COMPLETO ==================== -->
+    <footer class="bg-slate-900 text-slate-300 pt-16 pb-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+                <!-- Coluna Marca -->
+                <div class="space-y-4">
+                    <a href="#inicio" class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white font-extrabold text-lg">N</div>
+                        <span class="text-xl font-bold text-white">Nova<span class="text-brand-400">Web</span></span>
+                    </a>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Estúdio criativo especializado em produtos digitais de alto impacto, design centrado no usuário e engenharia web moderna.
+                    </p>
+                </div>
+
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Navegação</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#inicio" class="hover:text-brand-400 transition-colors">Início</a></li>
+                        <li><a href="#servicos" class="hover:text-brand-400 transition-colors">Nossos Serviços</a></li>
+                        <li><a href="#portfolio" class="hover:text-brand-400 transition-colors">Portfólio</a></li>
+                        <li><a href="#orcamento" class="hover:text-brand-400 transition-colors">Calculadora de Orçamento</a></li>
+                        <li><a href="#contato" class="hover:text-brand-400 transition-colors">Fale Conosco</a></li>
+                    </ul>
+                </div>
+
+                <!-- Serviços -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Soluções</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#servicos" class="hover:text-brand-400 transition-colors">UI/UX & Web Design</a></li>
+                        <li><a href="#servicos" class="hover:text-brand-400 transition-colors">Desenvolvimento Full-Stack</a></li>
+                        <li><a href="#servicos" class="hover:text-brand-400 transition-colors">Lojas Virtuais & E-commerce</a></li>
+                        <li><a href="#servicos" class="hover:text-brand-400 transition-colors">SEO & Growth Marketing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter / Redes -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Conecte-se</h4>
+                    <p class="text-sm text-slate-400 mb-4">Acompanhe nossos bastidores, artigos sobre design e novidades tecnológicas.</p>
+                    <div class="flex gap-3">
+                        <a href="#contato" aria-label="LinkedIn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 text-white flex items-center justify-center transition-colors">
+                            <span class="font-bold text-xs">IN</span>
+                        </a>
+                        <a href="#contato" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 text-white flex items-center justify-center transition-colors">
+                            <span class="font-bold text-xs">IG</span>
+                        </a>
+                        <a href="#contato" aria-label="GitHub" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 text-white flex items-center justify-center transition-colors">
+                            <span class="font-bold text-xs">GH</span>
+                        </a>
+                        <a href="#contato" aria-label="Dribbble" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 text-white flex items-center justify-center transition-colors">
+                            <span class="font-bold text-xs">DR</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 NovaWeb Estúdio Digital Ltda. Todos os direitos reservados.</p>
+                <div class="flex gap-6">
+                    <a href="#inicio" class="hover:text-slate-300 transition-colors">Política de Privacidade</a>
+                    <a href="#inicio" class="hover:text-slate-300 transition-colors">Termos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante Voltar ao Topo -->
+    <button id="back-to-top" aria-label="Voltar ao topo" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white shadow-xl shadow-brand-600/30 flex items-center justify-center opacity-0 invisible translate-y-4 transition-all duration-300 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <!-- ==================== SCRIPTS DA APLICAÇÃO ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* ----------------------------------------------------------------
+               1. TEMA CLARO / ESCURO & MENU MOBILE
+            ---------------------------------------------------------------- */
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('novaweb-theme', isDark ? 'dark' : 'light');
+            });
+
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeMenuIcon = document.getElementById('close-menu-icon');
+
+            function toggleMobileMenu() {
+                const isHidden = mobileMenu.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('hidden', !isHidden);
+                closeMenuIcon.classList.toggle('hidden', isHidden);
+            }
+
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) toggleMobileMenu();
+                });
+            });
+
+            /* ----------------------------------------------------------------
+               2. ANIMAÇÃO DOS CONTADORES NA SEÇÃO HERO
+            ---------------------------------------------------------------- */
+            const counters = document.querySelectorAll('.stat-counter');
+            let countersAnimated = false;
+
+            function animateCounters() {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 1600; // ms
+                    const startTime = performance.now();
+
+                    function updateCounter(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Easing suave (easeOutQuart)
+                        const ease = 1 - Math.pow(1 - progress, 4);
+                        counter.textContent = Math.floor(ease * target);
+
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                    requestAnimationFrame(updateCounter);
+                });
+            }
+
+            const statsObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !countersAnimated) {
+                    countersAnimated = true;
+                    animateCounters();
+                }
+            }, { threshold: 0.3 });
+
+            const statsContainer = document.getElementById('stats-container');
+            if (statsContainer) statsObserver.observe(statsContainer);
+
+            /* ----------------------------------------------------------------
+               3. SEÇÃO DE SERVIÇOS COM FILTRO DINÂMICO
+            ---------------------------------------------------------------- */
+            const servicesData = [
+                {
+                    title: 'UI/UX Design & Prototipagem',
+                    category: 'web-design',
+                    categoryLabel: 'Web Design',
+                    description: 'Interfaces intuitivas, sistemas de design escaláveis e protótipos interativos focados na jornada e retenção do usuário.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>`
+                },
+                {
+                    title: 'Desenvolvimento Web Full-Stack',
+                    category: 'desenvolvimento',
+                    categoryLabel: 'Desenvolvimento',
+                    description: 'Aplicações web ultrarrápidas, seguras e responsivas construídas com tecnologias modernas e arquitetura limpa.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>`
+                },
+                {
+                    title: 'SEO Técnico & Growth Marketing',
+                    category: 'marketing',
+                    categoryLabel: 'Marketing',
+                    description: 'Estratégias de posicionamento orgânico no Google, otimização de conversão (CRO) e campanhas orientadas a ROI.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>`
+                },
+                {
+                    title: 'Identidade Visual & Branding',
+                    category: 'web-design',
+                    categoryLabel: 'Web Design',
+                    description: 'Construção de marcas memoráveis com logotipos, tipografia, guias de estilo e posicionamento visual consistente.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`
+                },
+                {
+                    title: 'E-commerce de Alta Conversão',
+                    category: 'desenvolvimento',
+                    categoryLabel: 'Desenvolvimento',
+                    description: 'Lojas virtuais completas com checkout transparente, gestão de estoque integrada e experiência mobile-first.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>`
+                },
+                {
+                    title: 'Gestão de Tráfego & Analytics',
+                    category: 'marketing',
+                    categoryLabel: 'Marketing',
+                    description: 'Dashboards inteligentes, rastreamento avançado de eventos e campanhas de mídia paga de alta precisão.',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>`
+                }
+            ];
+
+            const servicesGrid = document.getElementById('services-grid');
+            const filterButtons = document.querySelectorAll('.service-filter-btn');
+
+            function renderServices(filter = 'todos') {
+                const filtered = filter === 'todos' 
+                    ? servicesData 
+                    : servicesData.filter(s => s.category === filter);
+
+                servicesGrid.innerHTML = filtered.map(service => `
+                    <div class="group p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-xl">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-brand-600/10 dark:bg-brand-500/20 text-brand-600 dark:text-brand-400 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                                ${service.icon}
+                            </div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                                ${service.categoryLabel}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">${service.title}</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${service.description}</p>
+                    </div>
+                `).join('');
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-600/20');
+                        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                    });
+                    btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-600/20');
+
+                    renderServices(btn.getAttribute('data-filter'));
+                });
+            });
+
+            renderServices();
+
+            /* ----------------------------------------------------------------
+               4. PORTFÓLIO E MODAL INTERATIVO
+            ---------------------------------------------------------------- */
+            const portfolioData = [
+                {
+                    id: 1,
+                    title: 'FinPulse Bank',
+                    category: 'Fintech & Web App',
+                    client: 'FinPulse Tecnologia Financeira',
+                    year: '2026',
+                    gradient: 'from-indigo-600 via-blue-600 to-cyan-500',
+                    summary: 'Plataforma completa de gestão financeira empresarial com dashboards em tempo real e conciliação automatizada.',
+                    challenge: 'Simplificar fluxos financeiros complexos para pequenas e médias empresas em uma interface limpa e acessível.',
+                    result: '+145% de retenção nos primeiros 90 dias e redução de 40% no tempo de onboarding.',
+                    tags: ['UI/UX Design', 'React', 'Design System', 'API REST']
+                },
+                {
+                    id: 2,
+                    title: 'Aura Botânica',
+                    category: 'E-commerce & Branding',
+                    client: 'Aura Cosméticos Naturais',
+                    year: '2025',
+                    gradient: 'from-emerald-600 via-teal-600 to-lime-500',
+                    summary: 'Redesign completo de marca e loja virtual sustentável com assinatura recorrente de produtos.',
+                    challenge: 'Elevar a percepção de valor da marca e otimizar o checkout mobile que representava 82% dos acessos.',
+                    result: 'Aumento de 68% na taxa de conversão e crescimento de 2.4x no ticket médio.',
+                    tags: ['E-commerce', 'Branding', 'SEO Técnico', 'CRO']
+                },
+                {
+                    id: 3,
+                    title: 'Veloce Mobilidade',
+                    category: 'Plataforma SaaS',
+                    client: 'Veloce Smart Urban',
+                    year: '2026',
+                    gradient: 'from-violet-600 via-purple-600 to-fuchsia-500',
+                    summary: 'Sistema web de monitoramento de frotas elétricas e reservas corporativas com mapas interativos.',
+                    challenge: 'Exibir milhares de pontos de telemetria em tempo real sem comprometer a fluidez no navegador.',
+                    result: 'Operação ativa em 14 capitais com 99.98% de disponibilidade e satisfação 4.9/5.',
+                    tags: ['Web App', 'Geolocalização', 'Performance', 'Full-Stack']
+                }
+            ];
+
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const portfolioModal = document.getElementById('portfolio-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+
+            portfolioGrid.innerHTML = portfolioData.map(project => `
+                <article class="group rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <!-- Banner Visual em Gradiente com Ilustração Geométrica -->
+                    <div class="relative h-56 bg-gradient-to-br ${project.gradient} p-6 flex flex-col justify-between overflow-hidden">
+                        <div class="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/15 blur-xl group-hover:scale-125 transition-transform duration-500"></div>
+                        <span class="self-start px-3 py-1 rounded-full bg-black/25 backdrop-blur-md text-white text-xs font-semibold">
+                            ${project.category}
+                        </span>
+                        <div class="text-white">
+                            <p class="text-xs uppercase tracking-wider opacity-80">${project.client}</p>
+                            <h3 class="text-2xl font-extrabold mt-0.5">${project.title}</h3>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${project.summary}</p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                ${project.tags.map(tag => `<span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <button data-project-id="${project.id}" class="open-project-btn mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 hover:bg-brand-600 dark:bg-slate-800 dark:hover:bg-brand-600 text-slate-800 hover:text-white dark:text-slate-200 font-semibold text-sm transition-colors flex items-center justify-center gap-2">
+                            Ver Detalhes do Case
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+
+            function openProjectModal(projectId) {
+                const project = portfolioData.find(p => p.id === Number(projectId));
+                if (!project) return;
+
+                modalContent.innerHTML = `
+                    <div class="h-44 bg-gradient-to-r ${project.gradient} p-8 flex flex-col justify-end text-white">
+                        <span class="text-xs font-bold uppercase tracking-wider opacity-85">${project.category} • ${project.year}</span>
+                        <h3 class="text-3xl font-extrabold mt-1">${project.title}</h3>
+                    </div>
+                    <div class="p-6 sm:p-8 space-y-5">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Cliente</h4>
+                            <p class="font-semibold text-slate-900 dark:text-white">${project.client}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">O Desafio</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">${project.challenge}</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Resultados Alcançados</h4>
+                            <p class="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mt-1">${project.result}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            ${project.tags.map(tag => `<span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                portfolioModal.classList.remove('hidden');
+                portfolioModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeProjectModal() {
+                portfolioModal.classList.add('hidden');
+                portfolioModal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.open-project-btn').forEach(btn => {
+                btn.addEventListener('click', () => openProjectModal(btn.getAttribute('data-project-id')));
+            });
+
+            closeModalBtn.addEventListener('click', closeProjectModal);
+            portfolioModal.addEventListener('click', (e) => {
+                if (e.target === portfolioModal) closeProjectModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !portfolioModal.classList.contains('hidden')) closeProjectModal();
+            });
+
+            /* ----------------------------------------------------------------
+               5. CALCULADORA INTERATIVA DE ORÇAMENTO
+            ---------------------------------------------------------------- */
+            const projectRadios = document.querySelectorAll('input[name="projectType"]');
+            const pagesSlider = document.getElementById('pages-slider');
+            const pagesDisplay = document.getElementById('pages-display');
+            const addonCheckboxes = document.querySelectorAll('.addon-checkbox');
+            const totalPriceEl = document.getElementById('total-price');
+            const estimatedDaysEl = document.getElementById('estimated-days');
+            const quoteBreakdownEl = document.getElementById('quote-breakdown');
+            const applyQuoteBtn = document.getElementById('apply-quote-btn');
+
+            let currentQuoteSummary = '';
+
+            function formatBRL(value) {
+                return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+            function calculateQuote() {
+                const selectedType = document.querySelector('input[name="projectType"]:checked');
+                const basePrice = Number(selectedType.getAttribute('data-price'));
+                const baseDays = Number(selectedType.getAttribute('data-days'));
+                const typeLabels = {
+                    landing: 'Landing Page Estratégica',
+                    institucional: 'Site Corporativo Completo',
+                    webapp: 'Sistema / Web App Sob Medida'
+                };
+                const typeName = typeLabels[selectedType.value];
+
+                const pages = Number(pagesSlider.value);
+                pagesDisplay.textContent = pages === 1 ? '1 página' : `${pages} páginas`;
+
+                // Primeira página já inclusa no valor base; cada página extra custa R$ 250
+                const extraPages = Math.max(0, pages - 1);
+                const pagesCost = extraPages * 250;
+                const pagesDays = Math.ceil(extraPages * 0.6);
+
+                let addonsCost = 0;
+                let addonsDays = 0;
+                const selectedAddons = [];
+
+                addonCheckboxes.forEach(cb => {
+                    if (cb.checked) {
+                        const price = Number(cb.getAttribute('data-price'));
+                        const days = Number(cb.getAttribute('data-days'));
+                        const name = cb.getAttribute('data-name');
+                        addonsCost += price;
+                        addonsDays += days;
+                        selectedAddons.push({ name, price });
+                    }
+                });
+
+                const total = basePrice + pagesCost + addonsCost;
+                const totalDays = baseDays + pagesDays + addonsDays;
+
+                totalPriceEl.textContent = formatBRL(total);
+                estimatedDaysEl.textContent = `${totalDays} dias úteis`;
+
+                // Renderiza detalhamento
+                let breakdownHTML = `
+                    <div class="flex justify-between">
+                        <span>${typeName}</span>
+                        <span class="font-semibold text-white">${formatBRL(basePrice)}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Estrutura (${pages} ${pages === 1 ? 'página' : 'páginas'})</span>
+                        <span class="font-semibold text-white">${pagesCost > 0 ? '+' + formatBRL(pagesCost) : 'Incluso'}</span>
+                    </div>
+                `;
+
+                selectedAddons.forEach(addon => {
+                    breakdownHTML += `
+                        <div class="flex justify-between text-brand-300">
+                            <span>+ ${addon.name}</span>
+                            <span class="font-semibold">+${formatBRL(addon.price)}</span>
+                        </div>
+                    `;
+                });
+
+                quoteBreakdownEl.innerHTML = breakdownHTML;
+
+                // Guarda resumo para preencher automaticamente o formulário de contato
+                const addonsText = selectedAddons.length > 0 
+                    ? selectedAddons.map(a => a.name).join(', ') 
+                    : 'Nenhum adicional';
+                currentQuoteSummary = `Olá, NovaWeb! Fiz uma simulação no site:\n• Projeto: ${typeName}\n• Escopo: ${pages} página(s)\n• Extras: ${addonsText}\n• Estimativa: ${formatBRL(total)} (${totalDays} dias úteis)\n\nGostaria de agendar uma reunião para avançarmos!`;
+            }
+
+            projectRadios.forEach(r => r.addEventListener('change', calculateQuote));
+            pagesSlider.addEventListener('input', calculateQuote);
+            addonCheckboxes.forEach(cb => cb.addEventListener('change', calculateQuote));
+
+            // Botão que transfere o orçamento simulado para o formulário de contato
+            applyQuoteBtn.addEventListener('click', () => {
+                const subjectInput = document.getElementById('subject');
+                const messageInput = document.getElementById('message');
+                subjectInput.value = 'Proposta de Orçamento Simulado';
+                messageInput.value = currentQuoteSummary;
+
+                // Dispara validação visual nos campos preenchidos
+                validateField(subjectInput, document.getElementById('error-subject'), val => val.trim().length >= 3);
+                validateField(messageInput, document.getElementById('error-message'), val => val.trim().length >= 15);
+
+                document.getElementById('contato').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('name').focus();
+            });
+
+            calculateQuote();
+
+            /* ----------------------------------------------------------------
+               6. VALIDAÇÃO DE FORMULÁRIO EM TEMPO REAL E ENVIO
+            ---------------------------------------------------------------- */
+            const contactForm = document.getElementById('contact-form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const subjectInput = document.getElementById('subject');
+            const messageInput = document.getElementById('message');
+            const successBanner = document.getElementById('form-success-banner');
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            function validateField(inputEl, errorEl, validatorFn) {
+                const isValid = validatorFn(inputEl.value);
+                if (!isValid) {
+                    inputEl.classList.add('border-rose-500', 'focus:ring-rose-500');
+                    inputEl.classList.remove('border-slate-300', 'dark:border-slate-700', 'border-emerald-500');
+                    errorEl.classList.remove('hidden');
+                } else {
+                    inputEl.classList.remove('border-rose-500', 'focus:ring-rose-500');
+                    inputEl.classList.add('border-emerald-500');
+                    errorEl.classList.add('hidden');
+                }
+                return isValid;
+            }
+
+            nameInput.addEventListener('input', () => validateField(nameInput, document.getElementById('error-name'), v => v.trim().length >= 3));
+            emailInput.addEventListener('input', () => validateField(emailInput, document.getElementById('error-email'), v => emailRegex.test(v.trim())));
+            subjectInput.addEventListener('input', () => validateField(subjectInput, document.getElementById('error-subject'), v => v.trim().length >= 3));
+            messageInput.addEventListener('input', () => validateField(messageInput, document.getElementById('error-message'), v => v.trim().length >= 15));
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const isNameValid = validateField(nameInput, document.getElementById('error-name'), v => v.trim().length >= 3);
+                const isEmailValid = validateField(emailInput, document.getElementById('error-email'), v => emailRegex.test(v.trim()));
+                const isSubjectValid = validateField(subjectInput, document.getElementById('error-subject'), v => v.trim().length >= 3);
+                const isMessageValid = validateField(messageInput, document.getElementById('error-message'), v => v.trim().length >= 15);
+
+                if (isNameValid && isEmailValid && isSubjectValid && isMessageValid) {
+                    const submitBtn = document.getElementById('submit-btn');
+                    const originalHTML = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Enviando...`;
+
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalHTML;
+                        contactForm.reset();
+                        [nameInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('border-emerald-500'));
+                        successBanner.classList.remove('hidden');
+
+                        setTimeout(() => {
+                            successBanner.classList.add('hidden');
+                        }, 6000);
+                    }, 900);
+                }
+            });
+
+            /* ----------------------------------------------------------------
+               7. BOTÃO VOLTAR AO TOPO
+            ---------------------------------------------------------------- */
+            const backToTopBtn = document.getElementById('back-to-top');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 450) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                    backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                    backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
